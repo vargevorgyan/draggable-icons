@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      html,
+      body,
+      .container {
+        width: 100%;
+        height: 100%;
+        -ms-user-select: none;
+        user-select: none;
+        -moz-user-select: none;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .fon {
+        width: 70%;
+        height: auto;
+      }
+      .wrapper {
+        width: 95%;
+        height: 95%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .icons {
+        width: 160px;
+        height: auto;
+      }
+      .icon {
+        display: block;
+        width: 120px;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      @media only screen and (max-width: 1150px) {
+        .icon {
+          width: 110px;
+        }
+        .icons {
+          width: 150px;
+        }
+      }
+      @media only screen and (max-width: 1070px) {
+        .wrapper {
+          flex-direction: column;
+          row-gap: 17px;
+        }
+        .icons {
+          height: 100px;
+          width: 80%;
+
+          display: flex;
+          align-items: baseline;
+          justify-content: space-around;
+        }
+        .icon {
+          width: 90px;
+          height: auto;
+        }
+        .fon {
+          width: 540px;
+          height: auto;
+        }
+      }
+      @media only screen and (max-width: 680px) {
+        .icons {
+          width: 100%;
+        }
+        .fon {
+          width: 100%;
+          height: auto;
+        }
+        .icon {
+          width: 70px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <div class="icons">
+          <img src="00.jpg" class="icon" draggable="false" title="dog" />
+          <img src="001.jpg" class="icon" draggable="false" title="wolf" />
+          <img src="002.jpg" class="icon" draggable="false" title="cat" />
+          <img src="00.jpg" class="icon" draggable="false" title="dog" />
+          <img src="001.jpg" class="icon" draggable="false" title="cat" />
+        </div>
+        <img src="fon.jpg" class="fon" draggable="false" />
+        <div class="icons">
+          <img src="00.jpg" class="icon" draggable="false" title="dog" />
+          <img src="001.jpg" class="icon" draggable="false" title="wolf" />
+          <img src="002.jpg" class="icon" draggable="false" title="cat" />
+          <img src="00.jpg" class="icon" draggable="false" title="dog" />
+          <img src="001.jpg" class="icon" draggable="false" title="cat" />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let draggableElements = document.getElementsByClassName('icon')
+      let body = document.querySelector('body')
+      let dragEl
+
+      const onMouseMove = (e) => {
+        let pageX = e.pageX || event.touches[0]?.pageX
+        let pageY = e.pageY || event.touches[0]?.pageY
+
+        if (
+          dragEl &&
+          body.offsetWidth - dragEl.offsetWidth / 2 > pageX &&
+          body.offsetHeight - dragEl.offsetHeight / 2 > pageY
+        ) {
+          console.log(pageX, body.offsetWidth)
+          dragEl.style.position = 'absolute'
+          dragEl.style.left = pageX - dragEl.offsetWidth / 2 + 'px'
+          dragEl.style.top = pageY - dragEl.offsetHeight / 2 + 'px'
+        }
+      }
+      for (let i = 0; i < draggableElements.length; i++) {
+        const mousedown = (event) => {
+          dragEl = event.target
+        }
+        const mouseup = (event) => {
+          dragEl = null
+        }
+        draggableElements[i].addEventListener('mousedown', mousedown)
+        draggableElements[i].addEventListener('mouseup', mouseup)
+        //Listeners for phone
+        draggableElements[i].addEventListener('touchstart', mousedown, {
+          passive: true,
+        })
+        draggableElements[i].addEventListener('touchend', mouseup, {
+          passive: true,
+        })
+      }
+      document.addEventListener('mousemove', onMouseMove)
+      document.addEventListener('touchmove', onMouseMove, { passive: true })
+    </script>
+  </body>
+</html>
